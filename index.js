@@ -15,7 +15,7 @@ app.use(cors());
 app.use(express.json())
 
 //routes
-app.use("/", express.static("logger"))
+app.use("/", express.static("serverStatsApp"))
 app.use("/system", systemInfoRouter)
 app.use("/api/persons", personsRouter);
 
