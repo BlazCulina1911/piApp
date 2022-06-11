@@ -1,18 +1,22 @@
 const express = require("express");
+const cors = require("cors");
+const mongoCreateServer = require("./utils/mongoCreateConnect");
 const systemInfoRouter = require("./controller/systemInfoRouter");
-const {logger} = require("./middleware/logger");
+const personsRouter = require("./controller/personsRouter");
+const { logger } = require("./middleware/logger");
 
 const app = express();
 
+//mongoConnection
+mongoServer = mongoCreateServer();
+//middleware
 app.use(logger);
+app.use(cors());
+app.use(express.json())
 
-app.get("/", (req, res) => {
-    return res
-    .status(200)
-    .send("HELLO!");
-
-})
-
+//routes
+app.use("/", express.static("logger"))
 app.use("/system", systemInfoRouter)
+app.use("/api/persons", personsRouter);
 
 app.listen(3000);

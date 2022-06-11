@@ -3,16 +3,21 @@ const osUtilities = require("node-os-utils");
 const cpu = osUtilities.cpu;
 const ram = osUtilities.mem;
 const os = osUtilities.os;
+const drive = osUtilities.drive
+const oscmd = osUtilities.oscmd;
 
 const getUsage = async () => {
 
-    ramInfo = await ram.used();
+    const ramInfo = await ram.info();
+    const driveInfo = await drive.info();
 
-    cpuUsage = await cpu.usage();
-    ramUsage = (ramInfo.usedMemMb / ramInfo.totalMemMb).toFixed(4)*100;
+    const cpuUsage = await cpu.usage();
+    const ramUsage = ramInfo.usedMemPercentage;
+    const driveUsage = driveInfo.usedPercentage;
     return {
         cpuUsage,
-        ramUsage
+        ramUsage,
+        driveUsage
     }
 }
 
@@ -21,14 +26,12 @@ const getInfo = async () => {
     const osPlatform = await os.oos();
     const osType = await os.type();
     const cpuModel = await cpu.model();
-    const ramInfo = await ram.info();
 
     return {
         osPlatform,
         osType,
         cpuModel,
-        ramInfo
     }
 }
 
-module.exports = {getUsage, getInfo}
+module.exports = { getUsage, getInfo }
